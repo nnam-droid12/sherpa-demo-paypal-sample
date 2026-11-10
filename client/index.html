@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,12 +9,177 @@
       type="text/css"
       href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"
     />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 16px;
+        background-color: #f8fafc;
+        color: #1e293b;
+      }
+      .checkout-container {
+        max-width: 720px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 24px;
+      }
+      .checkout-header {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 12px;
+      }
+      .checkout-header h1 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+      .checkout-layout {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 24px;
+        flex-wrap: wrap;
+      }
+      .order-summary-box {
+        flex: 1;
+        min-width: 220px;
+        max-width: 100%;
+      }
+      .order-item-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        font-size: 15px;
+      }
+      .order-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: 18px;
+        font-weight: 700;
+        padding: 12px 0;
+        border-top: 1px solid #e2e8f0;
+        margin-top: 8px;
+      }
+      .payment-box {
+        flex: 1;
+        min-width: 250px;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .paypal-button-container,
+      .venmo-button-container {
+        width: 100%;
+        max-width: 350px;
+        min-height: 40px;
+      }
+      paypal-button,
+      venmo-button {
+        width: 100%;
+        max-width: 350px;
+        display: block;
+        --paypal-button-border-radius: 4px;
+      }
+      paypal-message {
+        display: block;
+        margin-top: 10px;
+      }
+      .alert-box {
+        margin-top: 16px;
+        padding: 12px 16px;
+        border-radius: 6px;
+        background-color: #fef2f2;
+        border: 1px solid #f87171;
+        color: #991b1b;
+      }
+      .alert-box p {
+        margin: 0 0 8px 0;
+      }
+      .try-again-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        background-color: #0070ba;
+        color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        font-weight: 600;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 14px;
+      }
+      .try-again-btn:hover {
+        background-color: #005ea6;
+      }
+      .result-message-box {
+        margin-top: 16px;
+        padding: 12px 16px;
+        border-radius: 6px;
+        background-color: #f0fdf4;
+        border: 1px solid #86efac;
+        color: #166534;
+      }
+      @media (max-width: 480px) {
+        body {
+          padding: 8px;
+        }
+        .checkout-container {
+          padding: 16px;
+        }
+        .checkout-layout {
+          flex-direction: column;
+          gap: 16px;
+        }
+        .order-summary-box,
+        .payment-box,
+        .paypal-button-container,
+        .venmo-button-container,
+        paypal-button,
+        venmo-button {
+          width: 100%;
+          max-width: 100%;
+          min-width: 0;
+        }
+      }
+    </style>
   </head>
   <body>
-    <div id="paypal-button-container" class="paypal-button-container"></div>
-    <p id="result-message"></p>
+    <main class="checkout-container">
+      <div class="checkout-header">
+        <h1>Checkout</h1>
+      </div>
+      <div class="checkout-layout">
+        <div class="order-summary-box">
+          <div class="order-item-row">
+            <span>Sample Item</span>
+            <span>Qty: 1</span>
+            <span>$100.00</span>
+          </div>
+          <div class="order-total-row">
+            <span>Total:</span>
+            <span id="order-total">$100.00</span>
+          </div>
+          <paypal-message auto-bootstrap amount="100.00" currency-code="USD"></paypal-message>
+        </div>
+        <div class="payment-box">
+          <div id="paypal-button-container" class="paypal-button-container"></div>
+          <div id="venmo-button-container" class="venmo-button-container"></div>
+        </div>
+      </div>
+      <div id="alert-container" class="alert-box" role="alert" style="display: none;"></div>
+      <p id="result-message"></p>
+    </main>
 
-    <script src="https://www.paypal.com/sdk/js?client-id=%PAYPAL_CLIENT_ID%&buyer-country=US&currency=USD&components=buttons&enable-funding=venmo"></script>
+    <script>
+      window.PAYPAL_CLIENT_ID = "%PAYPAL_CLIENT_ID%";
+    </script>
+    <script async src="https://www.sandbox.paypal.com/web-sdk/v6/core"></script>
     <script src="app.js"></script>
   </body>
 </html>
